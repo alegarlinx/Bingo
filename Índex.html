@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo de Aromas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .bingo-card {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+        .bingo-cell {
+            padding: 20px;
+            background-color: #e0f7fa;
+            border: 1px solid #00838f;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .bingo-cell.checked {
+            background-color: #4caf50;
+            color: white;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00838f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005662;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bingo de Aromas</h1>
+    <p>Haz clic en los aromas que identificas para marcarlos en tu tarjeta.</p>
+    
+    <div class="bingo-card" id="bingoCard">
+        <!-- Celdas del bingo generadas dinámicamente -->
+    </div>
+    
+    <button onclick="checkBingo()">¡Verificar Bingo!</button>
+
+    <script>
+        const aromas = ["Café", "Canela", "Limón", "Lavanda", "Perfume", "Chocolate", "Ajo", "Vinagre", "Jabón"];
+        const bingoCard = document.getElementById("bingoCard");
+
+        // Generar tarjeta de bingo
+        aromas.forEach(aroma => {
+            const cell = document.createElement("div");
+            cell.className = "bingo-cell";
+            cell.textContent = aroma;
+            cell.onclick = () => cell.classList.toggle("checked");
+            bingoCard.appendChild(cell);
+        });
+
+        // Verificar si hay un bingo (todas las celdas marcadas)
+        function checkBingo() {
+            const cells = document.querySelectorAll(".bingo-cell");
+            const isBingo = Array.from(cells).every(cell => cell.classList.contains("checked"));
+            if (isBingo) {
+                alert("¡Felicidades! ¡Has completado el bingo!");
+            } else {
+                alert("Aún no has completado el bingo. Sigue intentando.");
+            }
+        }
+    </script>
+</body>
+</html>
