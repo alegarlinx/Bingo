@@ -59,13 +59,17 @@
         <!-- Celdas del bingo generadas dinámicamente -->
     </div>
     
-    <button onclick="checkLines()">¡Verificar Línea!</button>
-    <div class="result" id="resultText">Resultado: No has hecho línea todavía.</div>
+    <button onclick="checkRows()">¡Verificar Filas Completas!</button>
+    <div class="result" id="resultText">Filas completadas: 0</div>
 
     <script>
         const aromas = ["Café", "Canela", "Limón", "Lavanda", "Perfume", "Chocolate", "Ajo", "Vinagre", "Jabón"];
         const bingoCard = document.getElementById("bingoCard");
         const resultText = document.getElementById("resultText");
+
+        // Configuración de la tarjeta de bingo
+        const rows = 3; // Número de filas
+        const columns = 3; // Número de columnas
 
         // Crear la tarjeta de bingo
         aromas.forEach(aroma => {
@@ -76,58 +80,26 @@
             bingoCard.appendChild(cell);
         });
 
-        // Verificar líneas horizontales, verticales y diagonales
-        function checkLines() {
+        // Verificar cuántas filas están completas
+        function checkRows() {
             const cells = document.querySelectorAll(".bingo-cell");
-            const rows = 3; // Número de filas
-            const cols = 3; // Número de columnas
-            let hasLine = false;
+            let completedRows = 0;
 
-            // Verificar filas horizontales
             for (let i = 0; i < rows; i++) {
-                if (
-                    cells[i * cols].classList.contains("checked") &&
-                    cells[i * cols + 1].classList.contains("checked") &&
-                    cells[i * cols + 2].classList.contains("checked")
-                ) {
-                    hasLine = true;
-                    break;
+                let rowComplete = true;
+                for (let j = 0; j < columns; j++) {
+                    const index = i * columns + j;
+                    if (!cells[index].classList.contains("checked")) {
+                        rowComplete = false;
+                        break;
+                    }
                 }
+                if (rowComplete) completedRows++;
             }
 
-            // Verificar columnas verticales
-            for (let i = 0; i < cols; i++) {
-                if (
-                    cells[i].classList.contains("checked") &&
-                    cells[i + cols].classList.contains("checked") &&
-                    cells[i + 2 * cols].classList.contains("checked")
-                ) {
-                    hasLine = true;
-                    break;
-                }
-            }
-
-            // Verificar diagonales
-            if (
-                (cells[0].classList.contains("checked") &&
-                    cells[4].classList.contains("checked") &&
-                    cells[8].classList.contains("checked")) ||
-                (cells[2].classList.contains("checked") &&
-                    cells[4].classList.contains("checked") &&
-                    cells[6].classList.contains("checked"))
-            ) {
-                hasLine = true;
-            }
-
-            // Mostrar resultado
-            if (hasLine) {
-                resultText.textContent = "¡Enhorabuena! Has hecho línea.";
-            } else {
-                resultText.textContent = "Resultado: No has hecho línea todavía.";
-            }
+            resultText.textContent = `Filas completadas: ${completedRows}`;
+            alert(`Has completado ${completedRows} fila(s).`);
         }
     </script>
 </body>
 </html>
-
-        
